@@ -1,0 +1,88 @@
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import rootReducer from '../combineReducer';
+import { createMySocketMiddleware } from '../middleware/SocketMiddleware';
+
+const initialState = {
+  user: {},
+  userslist: [],
+  usersGroupsList: [],
+  usersGroupsListForAddUser: [],
+  userRolesList: [],
+  layoutList: [],
+  alarmslist: [],
+  definehierarchylist: [],
+  alertsList: [],
+  monthlyalertsummary: {labels:[],datasets:[]},
+  widgetslist: [],
+  definehierarchycollumnlist: [],
+  treelayout: [],
+  treedata: { node: [], expanded: [] },
+  selectedtree: { selectedID: '', selectedtreedata: [], layoutsdata: {}, widgetsdata: [], parameters: [], topiclist: [], currentLayout: {}, sensorTopicMap: [] },
+  sensorsvaluefortelemon: 0,
+  latestsensorvalue: 0,
+  socketInfo: { socketConnected: false, socket: {} },
+  layoutchangeflag : false,
+  savebuttontext: "save",
+  homePageDashboardData : [],
+  alertscount: 0,
+  devicecount: 0,
+  usercount: 0,
+  currentLayoutTitle:'',
+  alertsummaryforfaultypanel:[],
+  socketSensorInfo: {},
+  socketAlertInfo: {},
+  socketSensorData: {},
+  socketAlertData: {},
+  rolesUiData: {
+    isAdmin:false, 
+    homePageAlertsView: false, 
+    homePageUsersOnlineView:false, 
+    homePageDevicesView:false, 
+    homePageDataEntryView:false,
+    settingsPageUserViewReadPermission: false,
+    settingsPageAlarmConfViewReadPermission: false,
+    settingsPageDeviceConfViewReadPermission: false,
+    settingsPageUserViewWritePermission: false,
+    settingsPageAlarmConfViewWritePermission: false,
+    settingsPageDeviceConfViewWritePermission: false,
+    settingsPageUserViewDeletePermission: false,
+    settingsPageAlarmConfViewDeletePermission: false,
+    settingsPageDeviceConfViewDeletePermission: false,
+    usersEnabled: false,
+    alarmConfEnabled: false,
+    deviceConfEnabled: false,
+    dashBoardPageReadPermission: false,
+    dashBoardPageWritePermission: false,
+    dashBoardPageDeletePermission: false,
+    checkBoxStatus: false,
+    activeIndex: 0
+  },
+  last20Values: {},
+  alertsforselectedtopic : [],
+  currentvalues: [],
+  currentvaluesforsummary : [],
+  sensorSummaryTree: {},
+  flatTreeData: {},
+  alertsfordashboard : [],
+  layoutformvisibility: false,
+  layoutheadervisibility:true,
+  hoverMenuVisibility: false,
+  bottom: 0,
+  latestAlertsVisibility: true,
+  sensorLocation: [],
+  sensordatasummary: [],
+  devicevalues: [],
+  controlTypes: [],
+  alertRulesConfig: [],
+  controlTypeSum:[],
+  alertThresholds: []
+};
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk, createMySocketMiddleware("sensors"), createMySocketMiddleware("alerts"))),
+);
+
+export default store;
